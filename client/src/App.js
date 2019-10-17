@@ -4,8 +4,10 @@ import Posts from './Posts'
 
 function App() {
   return (
-    <div>
-      <Posts />
+    <div className="app-bg">
+      <div className="ui container">
+        <Posts />
+      </div>
     </div>
   );
 }
