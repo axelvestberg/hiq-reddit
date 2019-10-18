@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import './Posts.css';
+import moment from 'moment';
 
 class Posts extends React.Component {
 	constructor() {
@@ -8,21 +10,17 @@ class Posts extends React.Component {
 			posts: [],
 			after: "",
 			before: "",
-			selftextVisible: false
 		}
 	}
 
 	fetchPosts = (pagination) => {
 		const fetchUrl = `https://www.reddit.com/r/javascript.json?limit=10&${pagination}`
-		console.log(fetchUrl);
 		axios.get(fetchUrl)
 		.then((res) => {
 			const redditJson = res.data;
 			const after = redditJson.data.after;
 			const before = redditJson.data.before;
-			// const test = redditJson.map(obj => obj.data)
 			const posts = redditJson.data.children.map(obj => obj.data)
-			console.log(posts);
 			this.setState({
 					posts: posts,
 					after: after,
@@ -34,61 +32,54 @@ class Posts extends React.Component {
 		this.fetchPosts();
 	}
 
-	renderHeader() {
+	renderHeader(sub) {
+		console.log('subreddit name', sub);
 		return (
 			<h2 className="ui icon center aligned header">
 				<i aria-hidden="true" className="js circular icon yellow"></i>
-				<div className="content">/r/javascript</div>
+				<div className="content">r/javascript</div>
 			</h2>
 		)
 	}
 
-
-	renderThumbnail() {
-		const { thumbnail } = this.state.posts;
-		if (thumbnail === "") {
-			return <img alt="" src=""></img>
-		} else {
-			return <img alt="" src={thumbnail}></img>
-		}
+	formatCreatedDate(date) {
+		let dateString = moment.unix(date);
+		let createdAt = dateString._d;
+		let timeAgo = moment(createdAt).fromNow();
+		return timeAgo;
 	}
 
 	renderSelftext = (selftext) => {
-		console.log(selftext);
-		if (!this.state.selftextVisible) {
-			 return ''
-		} else {
-			return (
-				<div className="row">
-					<div className="sixteen column wide">
-						<div className="ui segment">
-							<p>{selftext}</p>
-						</div>
+		return (
+			<div className="row">
+				<div className="sixteen column wide">
+					<div className="ui segment">
+						<p>{selftext}</p>
 					</div>
 				</div>
-			)
-		}
+			</div>
+		)
+	}
+
+	scoreFormatter = (num) => {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
 	}
 
 	renderList() {
-		console.log(this.state)
+		console.log('posts', this.state.posts)
 		return this.state.posts.map(post => {
 			return (
 			<div key={post.id} className="ui celled grid">
-				<div onClick={() => {
-						this.setState({ selftextVisible: true });
-						this.renderSelftext(post.selftext);	
-					}}
-						className="row">
+				<div className="row">
 					<div className="one wide column">
-						<span style={{ fontSize: '20px'}}>{post.score}</span>
+						<span className="score" style={{ fontSize: '20px'}}>{this.scoreFormatter(post.score)}</span>
 						<img alt="" src={post.thumbnail}></img>
 					</div>
 					<div className="fifteen wide column">
 						<div className="content">
 							<div style={{ fontSize: '1.4em'}} className="header">{post.title}</div>
 							<div className="meta">
-								<span>created at {post.created} by {post.author}</span>
+								<span>created at {this.formatCreatedDate(post.created_utc)} by {post.author}</span>
 							</div>
 							<div className="meta">
 								<span>{post.num_comments} comments </span>
@@ -96,7 +87,6 @@ class Posts extends React.Component {
 						</div>
 					</div>
 				</div>
-				{this.renderSelftext}
 			</div>
 			)
 		})
@@ -105,7 +95,6 @@ class Posts extends React.Component {
 	nextPage = () => {
 		let nextPageString = `after=${this.state.after}&count=10`
 		this.fetchPosts(nextPageString)
-		console.log(this.state.after);
 	}
 
 	prevPage = () => {

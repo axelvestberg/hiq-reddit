@@ -1,0 +1,15 @@
+.row:hover {
+	background-color: #F8F8F8;
+}
+
+.score {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:20px;
+}
+
+.one {
+	min-width: 5em;;
+}
+
