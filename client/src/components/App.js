@@ -1,8 +1,8 @@
-import React from 'react';
-import './App.css';
-import Posts from './Posts'
+import React from "react";
+import "./App.css";
+import Posts from "./Posts";
 
-function App() {
+const App = () => {
   return (
     <div className="app-bg">
       <div className="ui container">
