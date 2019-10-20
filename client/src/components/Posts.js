@@ -30,8 +30,9 @@ class Posts extends React.Component {
     const fetchUrl = `https://www.reddit.com/r/${sub}.json?limit=${limit}&${pagination}`;
   	axios.get(fetchUrl).then(res => {
       const response = res.data.data;
-      console.log(response)
-      const posts = response.children.map(obj => obj.data);
+      console.log(response);
+      const posts = response.children.map(child => child.data);
+      console.log(posts);
       this.setState(
         {
           posts: posts,
@@ -41,10 +42,6 @@ class Posts extends React.Component {
         () => this.setState({ isLoading: false })
       );
     });
-  };
-
-  handleWindowSizeChange = () => {
-    this.setState({ width: window.innerWidth });
   };
 
   handleSubmit = e => {
@@ -75,14 +72,14 @@ class Posts extends React.Component {
 
   nextPage = () => {
     const { sub, limit } = this.state;
-    let nextPageString = `after=${this.state.after}&count=10`;
-    this.fetchPosts(sub, limit, nextPageString);
+    let nextPageQuery = `after=${this.state.after}&count=${limit}`;
+    this.fetchPosts(sub, limit, nextPageQuery);
   };
 
   prevPage = () => {
     const { sub, limit } = this.state;
-    let prevPageString = `after=${this.state.before}&count=10`;
-    this.fetchPosts(sub, limit, prevPageString);
+    let prevPageQuery = `after=${this.state.before}&count=${limit}`;
+    this.fetchPosts(sub, limit, prevPageQueryx2);
   };
 
   renderButtonNext() {
@@ -114,7 +111,7 @@ class Posts extends React.Component {
   renderList() {
     if (!this.state.isLoading) {
       return this.state.posts.map(post => {
-        return <Postitem responsive={this.state.width} key={post.id} post={post} />;
+        return <Postitem key={post.id} post={post} />;
       });
     }
     return (

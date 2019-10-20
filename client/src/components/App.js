@@ -4,11 +4,9 @@ import Posts from "./Posts";
 
 const App = () => {
   return (
-    <div className="app-bg">
-      <div className="ui container">
+      <div className="ui container app-bg">
         <Posts />
       </div>
-    </div>
   );
 }
 

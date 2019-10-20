@@ -6,6 +6,7 @@
 - Make title link to post/comments
 - Create a unit test
 - Create an integration test
+- Rename formatCreatedDate function to be more descriptive
 
 ## TODO (PROBABLY A GOOD IDEA)
 - Fix routes
