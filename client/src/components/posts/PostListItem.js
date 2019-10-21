@@ -1,19 +1,21 @@
 import React from "react";
-import { scoreFormatter, formatCreatedDate } from "../utils/helpers.js";
+import { Link } from "react-router-dom";
+import { scoreFormatter, formatCreatedDate } from "../../utils/helpers.js";
 
-const PostItem = ({ post }) => {
+const PostListItem = ({ post }) =>  {
+ 
   return (
     <div key={post.id} className="ui celled grid">
       <div className="row">
         <div className="one wide column">
-          <span className="score" style={{ fontSize: "20px" }}>
-            {scoreFormatter(post.score)}
-          </span>
+          <span className="score">{scoreFormatter(post.score)}</span>
           <img alt="" src={post.thumbnail}></img>
         </div>
         <div className="fifteen wide column">
           <div className="content">
-            <a href={post.url}><div className="ui header">{post.title}</div></a>
+            <a href={post.url}>
+              <div className="ui header">{post.title}</div>
+            </a>
             <div className="meta">
               <span>
                 created at {formatCreatedDate(post.created_utc)} by{" "}
@@ -21,10 +23,9 @@ const PostItem = ({ post }) => {
               </span>
             </div>
             <div className="meta">
-              <a href={post.permalink}>
+              <Link to={`/comments/${post.id}`}>
                 <span>{post.num_comments} comments</span>
-                <span> Clicked: {post.clicked.toString()}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -33,5 +34,4 @@ const PostItem = ({ post }) => {
   );
 }
 
-
-export default PostItem;
+export default PostListItem;

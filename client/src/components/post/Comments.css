@@ -1,0 +1,9 @@
+.text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-height: 10em;
+}
+
+.commenthover:hover {
+	background-color: #F8F8F8;
+}
