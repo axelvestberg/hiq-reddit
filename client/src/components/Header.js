@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 class Header extends React.Component {
   render() {
@@ -9,8 +10,10 @@ class Header extends React.Component {
     return (
       <div>
         <h2 className="ui icon center aligned header">
-          <i aria-hidden="true" className={icon}></i>
-          <div className="content">{subreddit}</div>
+          <Link to="/">
+            <i aria-hidden="true" className={icon}></i>
+            <div className="content">{subreddit}</div>
+          </Link>
         </h2>
       </div>
     );

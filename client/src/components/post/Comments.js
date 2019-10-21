@@ -11,7 +11,7 @@ class Comments extends React.Component {
         return (
           <div key={comment.id} className="fluid comment">
             <div className="content commenthover">
-              <a className="author">{comment.author}</a>
+              <span className="author">{comment.author}</span>
               <div className="metadata">
                 <span>{comment.score} Points</span>
                 <span className="date">
@@ -19,9 +19,6 @@ class Comments extends React.Component {
                 </span>
               </div>
               <div className="text">{comment.body}</div>
-              <div className="actions">
-                <a className="reply">Reply</a>
-              </div>
             </div>
           </div>
         );
